@@ -1,9 +1,6 @@
 package org.my.example;
 
-/**
- * Hello world!
- *
- */
+//💡 Создать приложение с использованием Maven.
 public class App 
 {
     public static void main( String[] args )
