@@ -28,7 +28,7 @@ public class Task4and1 {
             }
         }
 
-        System.out.println(one.indexOf(two));
+        System.out.println(counter);
     }
 
 }

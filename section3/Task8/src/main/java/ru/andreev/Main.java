@@ -32,7 +32,7 @@ public class Main {
             }
         }
 
-        System.out.println("Введите возраст пользователя: ");
+        System.out.println("Введите возраст пользователей для получения их списка: ");
         Integer age = in.nextInt();
         if (map.containsKey(age)) {
             List<User> users = map.get(age);

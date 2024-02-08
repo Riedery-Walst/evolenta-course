@@ -10,12 +10,9 @@ public class Task4and2 {
         Scanner scanner = new Scanner(System.in);
         String in = scanner.nextLine();
 
-
-        String forbiddenWordOne = "кака";
-        String forbiddenWordTwo = "бяка";
         String placeholder = "вырезано цензурой";
 
-        String output = in.replace(forbiddenWordOne, placeholder).replace(forbiddenWordTwo, placeholder);
+        String output = in.toLowerCase().replaceAll("(кака|бяка)", placeholder);
 
         System.out.println(output);
     }
