@@ -1,14 +1,12 @@
-package ru.andreev.task15.model;
+package ru.andreev.task16.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,9 +16,14 @@ import java.time.LocalDate;
 public class Person {
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
     private String firstname;
     private String surname;
     private String lastname;
     private LocalDate birthday;
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Message> messages;
+    public void addMessage(Message message) {
+        messages.add(message);
+    }
 }

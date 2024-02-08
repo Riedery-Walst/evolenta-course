@@ -22,18 +22,18 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{id}")
-    public Optional<Message> findPersonById(@PathVariable long id) {
+    public Optional<Message> findMessageById(@PathVariable long id) {
         return messageRepository.findById(id);
     }
 
     @PostMapping("/messages")
-    public Message addPerson(@RequestBody Message message) {
+    public Message addMessage(@RequestBody Message message) {
         messageRepository.save(message);
         return message;
     }
 
     @PutMapping("/messages/{id}")
-    public ResponseEntity<Message> updatePerson(@PathVariable long id, @RequestBody Message message) {
+    public ResponseEntity<Message> updateMessage(@PathVariable long id, @RequestBody Message message) {
         message.setId(id);
         messageRepository.save(message);
 
@@ -41,7 +41,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/messages/{id}")
-    public void deletePerson(@PathVariable long id) {
+    public void deleteMessage(@PathVariable long id) {
         messageRepository.deleteById(id);
     }
 }
