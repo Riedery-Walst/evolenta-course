@@ -1,5 +1,6 @@
 package ru.andreev.location.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,9 @@ public class LocationController {
 
     private final LocationRepository locationRepository;
     private final RestTemplate restTemplate;
+
+    @Value("${weather.url}")
+    private String weatherUrl;
 
     public LocationController(LocationRepository locationRepository, RestTemplate restTemplate) {
         this.locationRepository = locationRepository;
@@ -37,8 +41,12 @@ public class LocationController {
     public ResponseEntity<Weather> getWeather(@RequestParam String name) {
         Location location = locationRepository.findByName(name).
                 orElseThrow(() -> new RuntimeException("Location not found"));
-        Weather weather = restTemplate.getForObject("http://weather-info-service/weather?lat=" +
-                location.getLatitude() + "&lon=" + location.getLongitude(), Weather.class);
+
+        String url = "http://" + weatherUrl + "/weather?lat=" +
+                location.getLatitude() + "&lon=" + location.getLongitude();
+
+        Weather weather = restTemplate.getForObject(url, Weather.class);
+
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 }

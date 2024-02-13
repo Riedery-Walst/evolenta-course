@@ -17,10 +17,14 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 @RequestMapping("/weather")
 public class WeatherController {
+    private final RestTemplate restTemplate;
+
     @Value("${openweathermap.apiKey}")
     private String apiKey;
 
-    private final RestTemplate restTemplate;
+    @Value("${external.weather.url}")
+    private String externalWeatherUrl;
+
 
     public WeatherController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -28,7 +32,7 @@ public class WeatherController {
 
     @GetMapping
     public ResponseEntity<Weather> getWeather(@RequestParam float lat, @RequestParam float lon) throws JsonProcessingException {
-        String url = "https://api.openweathermap.org/data/2.5/weather?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
+        String url = externalWeatherUrl + "?lat=" + lat + "&lon=" + lon + "&appid=" + apiKey;
         ResponseEntity<String> weatherJson = restTemplate.getForEntity(url, String.class);
 
         ObjectMapper objectMapper = new ObjectMapper();

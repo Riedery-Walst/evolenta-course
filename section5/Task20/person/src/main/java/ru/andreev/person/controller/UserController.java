@@ -1,5 +1,6 @@
 package ru.andreev.person.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,10 @@ public class UserController {
     private final RestTemplate restTemplate;
     private final UserRepository userRepository;
 
+    @Value("${location.url}")
+    private String locationUrl;
+
+
     public UserController(RestTemplate restTemplate, UserRepository userRepository) {
         this.restTemplate = restTemplate;
         this.userRepository = userRepository;
@@ -23,7 +28,10 @@ public class UserController {
     @GetMapping("/{id}/weather")
     public ResponseEntity<Weather> getWeatherForPerson(@PathVariable Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
-        Weather weather = restTemplate.getForObject("http://location-service/locations?name=" + user.getLocation(), Weather.class);
+
+        String url = "http://" + locationUrl + "/locations?name=" + user.getLocation();
+
+        Weather weather = restTemplate.getForObject(url, Weather.class);
         return new ResponseEntity<>(weather, HttpStatus.OK);
     }
 
