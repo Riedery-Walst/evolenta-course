@@ -1,23 +1,31 @@
 package com.example.weather.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Weather {
     @JsonProperty("temp")
-    private double temperature;
+    private Double temperature;
 
     @JsonProperty("feels_like")
-    private double feelsLikeTemperature;
+    private Double feelsLikeTemperature;
 
     @JsonProperty("temp_min")
-    private double minTemperature;
+    private Double minTemperature;
 
     @JsonProperty("temp_max")
-    private double maxTemperature;
+    private Double maxTemperature;
 
-    private int pressure;
+    private Integer pressure;
 
-    private int humidity;
+    private Integer humidity;
+
+    @JsonProperty("sea_level")
+    private Integer seaLevel;
+
+    @JsonProperty("grnd_level")
+    private Integer groundLevel;
 }
