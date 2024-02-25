@@ -29,10 +29,17 @@ public class UserController {
     public ResponseEntity<Weather> getWeatherForPerson(@PathVariable Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
 
-        String url = "http://" + locationUrl + "/locations?name=" + user.getLocation();
+        String url = "http://" + locationUrl + "/locations/weather?name=" + user.getLocation();
 
         Weather weather = restTemplate.getForObject(url, Weather.class);
         return new ResponseEntity<>(weather, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping

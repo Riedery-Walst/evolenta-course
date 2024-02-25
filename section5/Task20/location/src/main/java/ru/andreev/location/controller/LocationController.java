@@ -37,9 +37,9 @@ public class LocationController {
         return ResponseEntity.ok(location);
     }
 
-    @GetMapping
-    public ResponseEntity<Weather> getWeather(@RequestParam String name) {
-        Location location = locationRepository.findByName(name).
+    @GetMapping("/weather")
+    public ResponseEntity<Weather> redirectRequestWeather(@RequestParam String name) {
+        Location location = locationRepository.findFirstByName(name).
                 orElseThrow(() -> new RuntimeException("Location not found"));
 
         String url = "http://" + weatherUrl + "/weather?lat=" +
@@ -48,5 +48,13 @@ public class LocationController {
         Weather weather = restTemplate.getForObject(url, Weather.class);
 
         return new ResponseEntity<>(weather, HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Location> getLocation(@RequestParam String name) {
+        Location location = locationRepository.findFirstByName(name)
+                .orElseThrow(() -> new RuntimeException("Location not found"));
+
+        return new ResponseEntity<>(location, HttpStatus.OK);
     }
 }
